@@ -104,7 +104,6 @@ int main() {
     //Singly linked list
     LinkedList<City> cityList;
 
-    // Вставка городов
     for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
         cityList.insertAfter(nullptr, std::move(*iter));
     }
