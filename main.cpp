@@ -115,7 +115,7 @@ int main() {
 //    } else {
 //        std::cout << "City not found." << std::endl;
 //    }
-    //   Вывод списка городов (пример)
+
 //    LinkedList<City>::Node *current = cityList.head;
 //    while (current) {
 //        std::cout << "City Name: " << current->value.name.data() << std::endl;
