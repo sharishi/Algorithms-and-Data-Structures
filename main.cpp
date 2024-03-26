@@ -110,7 +110,6 @@ int main() {
     }
     // Поиск города по идентификатору
     FindNodeResult<City> result = cityList.find(1);
-//    // Вывод найденного города
 //    if (result.foundNode) {
 //        std::cout << "Found City: " << result.foundNode->value.name.data() << std::endl;
 //    } else {
