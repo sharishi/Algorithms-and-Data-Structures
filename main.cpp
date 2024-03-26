@@ -9,9 +9,13 @@
 #include "searches/binary_tree.h"
 #include "searches/fibonacci.h"
 #include "searches/linear_search.h"
+#include "lists/singly_linked.h"
+#include "lists/double_linked.h"
 #include <chrono>
+
 template<typename Func, typename... Args>
-std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))> measureTimeAndResult(Func&& func, Args&&... args) {
+std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))>
+measureTimeAndResult(Func &&func, Args &&... args) {
     auto start = std::chrono::high_resolution_clock::now();
     auto result = func(std::forward<Args>(args)...);
     auto end = std::chrono::high_resolution_clock::now();
@@ -22,26 +26,28 @@ std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))> measu
 int main() {
 
     // LAB 1
+    //..............................................................................................................
+    std::cout << "LAB 1" << std::endl;
     ErrorFlags flags;
-    FILE* file = fopen("city.csv", "a");
+    FILE *file = fopen("city.csv", "a");
     if (file == nullptr) {
         std::cerr << "Error: Unable to open file for writing." << std::endl;
         return 1;
     }
     // New City add
     std::vector<City> cities = {
-            {1001, "Paris", 52, "Gallo-Romans", "France", 48.8566f, 2.3522f, EUROPE},
-            {1002, "Buenos Aires", 1536, "Spanish explorers", "Argentina", -34.6118f, -58.4173f, SOUTHAMERICA},
+            {9,  "Paris",        52,   "Gallo-Romans",      "France",    48.8566f,  2.3522f,   EUROPE},
+            {10, "Buenos Aires", 1536, "Spanish explorers", "Argentina", -34.6118f, -58.4173f, SOUTHAMERICA},
 
     };
 
     // Validate each city
-    for (auto& city : cities) {
+    for (auto &city: cities) {
         validateAndFillCity(city, flags);
     }
 
-   // Serialize City
-    for (auto& city : cities) {
+    // Serialize City
+    for (auto &city: cities) {
         std::cout << 'h';
         serialize_city(&city, file, flags);
         fprintf(file, "\n");
@@ -55,7 +61,7 @@ int main() {
     try {
         cities_read = read_cities_from_csv("city.csv", flags);
     }
-    catch (const std::exception& e) {
+    catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
@@ -64,34 +70,118 @@ int main() {
 
     auto result_binary_search = measureTimeAndResult(binary_search, cities_read, search_id);
     auto result_linear_search = measureTimeAndResult(linear_search, cities_read, search_id);
-
-    std::cout << "Binary search: "<< std::endl;
+    //Binary search
+    std::cout << "Binary search: " << std::endl;
     print_output(result_binary_search, search_id);
-
-    std::cout << "Linear search: "<< std::endl;
+    //Linear search
+    std::cout << "Linear search: " << std::endl;
     print_output(result_linear_search, search_id);
-
-    std::cout << "Fibonacci search: "<< std::endl;
+    //Fibonacci search
+    std::cout << "Fibonacci search: " << std::endl;
     auto result_fibonacci_search = measureTimeAndResult(fibonacciSearch, cities_read, search_id, cities_read.size());
     double time_fibonacci_search = result_fibonacci_search.first;
     int ind_from_fibonacci_search = result_fibonacci_search.second;
-    City* ptr_to_city = &cities_read[ind_from_fibonacci_search];
-    print_output({time_fibonacci_search,ptr_to_city}, search_id);
-
-    std::cout << "Binary Tree Search: "<< std::endl;
-    BSTreeNode* root = nullptr;
-    for (const auto& city : cities_read) {
+    City *ptr_to_city = &cities_read[ind_from_fibonacci_search];
+    print_output({time_fibonacci_search, ptr_to_city}, search_id);
+    //Binary Tree search
+    std::cout << "Binary Tree Search: " << std::endl;
+    BSTreeNode *root = nullptr;
+    for (const auto &city: cities_read) {
         insertNode(root, city);
     }
     auto result_bt_search = measureTimeAndResult(findNode, root, search_id);
     double time_bt_search = result_bt_search.first;
-    BSTreeNode* city_from_bt_search = result_bt_search.second;
+    BSTreeNode *city_from_bt_search = result_bt_search.second;
     printNode(city_from_bt_search);
     std::cout << "Time: " << time_bt_search << std::endl << std::endl;
 
     deleteTree(root);
 
     //LAB2
+    //..............................................................................................................
+    std::cout << "LAB 2" << std::endl;
+
+    //Singly linked list
+    LinkedList<City> cityList;
+
+    // Вставка городов
+    for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
+        cityList.insertAfter(nullptr, std::move(*iter));
+    }
+    // Поиск города по идентификатору
+    FindNodeResult<City> result = cityList.find(1);
+//    // Вывод найденного города
+//    if (result.foundNode) {
+//        std::cout << "Found City: " << result.foundNode->value.name.data() << std::endl;
+//    } else {
+//        std::cout << "City not found." << std::endl;
+//    }
+    //   Вывод списка городов (пример)
+//    LinkedList<City>::Node *current = cityList.head;
+//    while (current) {
+//        std::cout << "City Name: " << current->value.name.data() << std::endl;
+//        current = current->next;
+//    }
+//    // Удаление следующего узла
+    cityList.removeAfter(nullptr);
+
+//    std::cout << "After delete: " << std::endl;
+    LinkedList<City>::Node *current2 = cityList.head;
+
+    // Вывод списка городов
+//    while (current2) {
+//        std::cout << "City Name: " << current2->value.name.data() << std::endl;
+//        current2 = current2->next;
+//    }
+    cityList.assertNoCycles();
+
+//    // Пример использования
+    DoubleLinkedList<City> DoubleLinkedList;
+
+    for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
+        DoubleLinkedList.insertAfter(nullptr, std::move(*iter));
+    }
+
+//    // Поиск города по идентификатору
+    Node<City>* result_double = DoubleLinkedList.find(2);
+//
+//    // Вывод найденного города (пример)
+    if (result_double) {
+        std::cout << "Found City: " << result_double->value.name.data() << std::endl;
+    } else {
+        std::cout << "City not foundyee." << std::endl;
+    }
+//    int length = 0;
+//    Node<City>* current = DoubleLinkedList.head; // начинаем с головного узла
+//
+//    while (current != nullptr) {
+//        ++length;
+//        current = current->next; // переходим к следующему узлу
+//    }
+//
+//// length теперь содержит количество элементов в списке
+//
+//
+//// Печатаем длину списка
+//    std::cout << "Длина списка: " << length << std::endl;
+//    // Удаление узла из списка
+    DoubleLinkedList.remove_double(DoubleLinkedList.head);
+
+//    int length2 = 0;
+//    Node<City>* current3 = DoubleLinkedList.head; // начинаем с головного узла
+//
+//    while (current3 != nullptr) {
+//        ++length2;
+//        current3 = current3->next; // переходим к следующему узлу
+//    }
+//
+//// Печатаем длину списка
+//    std::cout << "Длина списка: " << length2 << std::endl;
+
+//    // Проверка наличия циклов
+    DoubleLinkedList.assertNoCycles();
+
+
 
     return 0;
 };
