@@ -145,21 +145,19 @@ int main() {
 //    // Поиск города по идентификатору
     Node<City>* result_double = DoubleLinkedList.find(2);
 //
-//    // Вывод найденного города (пример)
     if (result_double) {
         std::cout << "Found City: " << result_double->value.name.data() << std::endl;
     } else {
         std::cout << "City not foundyee." << std::endl;
     }
 //    int length = 0;
-//    Node<City>* current = DoubleLinkedList.head; // начинаем с головного узла
+//    Node<City>* current = DoubleLinkedList.head;
 //
 //    while (current != nullptr) {
 //        ++length;
-//        current = current->next; // переходим к следующему узлу
+//        current = current->next;
 //    }
 //
-//// length теперь содержит количество элементов в списке
 //
 //
 //// Печатаем длину списка
@@ -168,11 +166,11 @@ int main() {
     DoubleLinkedList.remove_double(DoubleLinkedList.head);
 
 //    int length2 = 0;
-//    Node<City>* current3 = DoubleLinkedList.head; // начинаем с головного узла
+//    Node<City>* current3 = DoubleLinkedList.head;
 //
 //    while (current3 != nullptr) {
 //        ++length2;
-//        current3 = current3->next; // переходим к следующему узлу
+//        current3 = current3->next;
 //    }
 //
 //// Печатаем длину списка
