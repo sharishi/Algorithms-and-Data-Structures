@@ -160,9 +160,10 @@ int main() {
 //
 //
 //
-//// Печатаем длину списка
+
 //    std::cout << "Длина списка: " << length << std::endl;
-//    // Удаление узла из списка
+
+// Удаление узла из списка
     DoubleLinkedList.remove_double(DoubleLinkedList.head);
 
 //    int length2 = 0;
@@ -173,10 +174,8 @@ int main() {
 //        current3 = current3->next;
 //    }
 //
-//// Печатаем длину списка
 //    std::cout << "Длина списка: " << length2 << std::endl;
 
-//    // Проверка наличия циклов
     DoubleLinkedList.assertNoCycles();
 
 
