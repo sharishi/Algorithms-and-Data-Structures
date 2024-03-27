@@ -1,7 +1,4 @@
 //
-// Created by Vica on 27.03.2024.
-//
-//
 // Created by Vica on 21.03.2024.
 //
 
@@ -14,7 +11,6 @@
 #include "searches/linear_search.h"
 #include "lists/singly_linked.h"
 #include "lists/double_linked.h"
-#include "graphs/graph.h"
 #include <chrono>
 
 template<typename Func, typename... Args>
@@ -29,6 +25,9 @@ measureTimeAndResult(Func &&func, Args &&... args) {
 
 int main() {
 
+    // LAB 1
+    //..............................................................................................................
+    std::cout << "LAB 1" << std::endl;
     ErrorFlags flags;
     FILE *file = fopen("city.csv", "a");
     if (file == nullptr) {
@@ -66,7 +65,40 @@ int main() {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
+    // We enter the constant identifier we want to find
+    size_t search_id = 4;
 
+    auto result_binary_search = measureTimeAndResult(binary_search, cities_read, search_id);
+    auto result_linear_search = measureTimeAndResult(linear_search, cities_read, search_id);
+    //Binary search
+    std::cout << "Binary search: " << std::endl;
+    print_output(result_binary_search, search_id);
+    //Linear search
+    std::cout << "Linear search: " << std::endl;
+    print_output(result_linear_search, search_id);
+    //Fibonacci search
+    std::cout << "Fibonacci search: " << std::endl;
+    auto result_fibonacci_search = measureTimeAndResult(fibonacciSearch, cities_read, search_id, cities_read.size());
+    double time_fibonacci_search = result_fibonacci_search.first;
+    int ind_from_fibonacci_search = result_fibonacci_search.second;
+    City *ptr_to_city = &cities_read[ind_from_fibonacci_search];
+    print_output({time_fibonacci_search, ptr_to_city}, search_id);
+    //Binary Tree search
+    std::cout << "Binary Tree Search: " << std::endl;
+    BSTreeNode *root = nullptr;
+    for (const auto &city: cities_read) {
+        insertNode(root, city);
+    }
+    auto result_bt_search = measureTimeAndResult(findNode, root, search_id);
+    double time_bt_search = result_bt_search.first;
+    BSTreeNode *city_from_bt_search = result_bt_search.second;
+    printNode(city_from_bt_search);
+    std::cout << "Time: " << time_bt_search << std::endl << std::endl;
+
+    deleteTree(root);
+
+    //LAB2
+    //..............................................................................................................
     std::cout << "LAB 2" << std::endl;
 
     //Singly linked list
@@ -113,7 +145,6 @@ int main() {
 //    // Поиск города по идентификатору
     Node<City>* result_double = DoubleLinkedList.find(2);
 //
-//    // Вывод найденного города (пример)
     if (result_double) {
         std::cout << "Found City: " << result_double->value.name.data() << std::endl;
     } else {
@@ -148,6 +179,10 @@ int main() {
 //    // Проверка наличия циклов
     DoubleLinkedList.assertNoCycles();
 
+
+
+    return 0;
 };
+
 
 
