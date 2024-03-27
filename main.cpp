@@ -132,7 +132,7 @@ int main() {
 //        current2 = current2->next;
 //    }
     cityList.assertNoCycles();
-
+//Создание doublelists
 //    // Пример использования
     DoubleLinkedList<City> DoubleLinkedList;
 
@@ -176,6 +176,8 @@ int main() {
 
     DoubleLinkedList.assertNoCycles();
 
+//Lab4
+//....................................................................................................................
 
 
     return 0;
