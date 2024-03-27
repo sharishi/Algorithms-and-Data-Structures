@@ -4,13 +4,11 @@
 
 #include <iostream>
 #include <vector>
-#include "info.h"
-#include "searches/binary_search.h"
-#include "searches/binary_tree.h"
-#include "searches/fibonacci.h"
-#include "searches/linear_search.h"
-#include "lists/singly_linked.h"
-#include "lists/double_linked.h"
+#include "../../info.h"
+#include "../../searches/binary_search.h"
+#include "../../searches/binary_tree.h"
+#include "../../searches/fibonacci.h"
+#include "../../searches/linear_search.h"
 #include <chrono>
 
 template<typename Func, typename... Args>
@@ -25,9 +23,9 @@ measureTimeAndResult(Func &&func, Args &&... args) {
 
 int main() {
 
-    // LAB 1
+    // LAB 2
     //..............................................................................................................
-    std::cout << "LAB 1" << std::endl;
+    std::cout << "LAB 2" << std::endl;
     ErrorFlags flags;
     FILE *file = fopen("city.csv", "a");
     if (file == nullptr) {
@@ -48,7 +46,6 @@ int main() {
 
     // Serialize City
     for (auto &city: cities) {
-        std::cout << 'h';
         serialize_city(&city, file, flags);
         fprintf(file, "\n");
     }
@@ -96,88 +93,6 @@ int main() {
     std::cout << "Time: " << time_bt_search << std::endl << std::endl;
 
     deleteTree(root);
-
-    //LAB2
-    //..............................................................................................................
-    std::cout << "LAB 2" << std::endl;
-
-    //Singly linked list
-    LinkedList<City> cityList;
-
-    // Вставка городов
-    for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
-        cityList.insertAfter(nullptr, std::move(*iter));
-    }
-    // Поиск города по идентификатору
-    FindNodeResult<City> result = cityList.find(1);
-//    // Вывод найденного города
-//    if (result.foundNode) {
-//        std::cout << "Found City: " << result.foundNode->value.name.data() << std::endl;
-//    } else {
-//        std::cout << "City not found." << std::endl;
-//    }
-    //   Вывод списка городов (пример)
-//    LinkedList<City>::Node *current = cityList.head;
-//    while (current) {
-//        std::cout << "City Name: " << current->value.name.data() << std::endl;
-//        current = current->next;
-//    }
-//    // Удаление следующего узла
-    cityList.removeAfter(nullptr);
-
-//    std::cout << "After delete: " << std::endl;
-    LinkedList<City>::Node *current2 = cityList.head;
-
-    // Вывод списка городов
-//    while (current2) {
-//        std::cout << "City Name: " << current2->value.name.data() << std::endl;
-//        current2 = current2->next;
-//    }
-    cityList.assertNoCycles();
-
-//    // Пример использования
-    DoubleLinkedList<City> DoubleLinkedList;
-
-    for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
-        DoubleLinkedList.insertAfter(nullptr, std::move(*iter));
-    }
-
-//    // Поиск города по идентификатору
-    Node<City>* result_double = DoubleLinkedList.find(2);
-//
-    if (result_double) {
-        std::cout << "Found City: " << result_double->value.name.data() << std::endl;
-    } else {
-        std::cout << "City not foundyee." << std::endl;
-    }
-//    int length = 0;
-//    Node<City>* current = DoubleLinkedList.head;
-//
-//    while (current != nullptr) {
-//        ++length;
-//        current = current->next;
-//    }
-//
-//
-//
-//// Печатаем длину списка
-//    std::cout << "Длина списка: " << length << std::endl;
-//    // Удаление узла из списка
-    DoubleLinkedList.remove_double(DoubleLinkedList.head);
-
-//    int length2 = 0;
-//    Node<City>* current3 = DoubleLinkedList.head;
-//
-//    while (current3 != nullptr) {
-//        ++length2;
-//        current3 = current3->next;
-//    }
-//
-//// Печатаем длину списка
-//    std::cout << "Длина списка: " << length2 << std::endl;
-
-//    // Проверка наличия циклов
-    DoubleLinkedList.assertNoCycles();
 
 
 
