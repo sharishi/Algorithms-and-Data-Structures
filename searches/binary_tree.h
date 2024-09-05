@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include "../info.h"
+#include "../../untitled/info.h"
 
 
 using std::cout;

@@ -13,13 +13,10 @@ int main() {
 
     std::cout << "BFS traversal: " << std::endl;
     bfs(rootNode);
-    Node_Graph *rootNode2 = createGraph();
     std::cout << "DFS traversal: " << std::endl;
-    dfs(rootNode2);
+    dfs(rootNode);
 
     std::cout << std::endl << "Sum of neighbor values for node1: " << sumNeighborValues(rootNode) << std::endl;
 
     free_memory(rootNode);
-    free_memory(rootNode2);
-
 }

@@ -12,16 +12,7 @@
 #include <vector>
 #include <chrono>
 #include <utility>
-#include "info.h"
-
-template<typename Func, typename... Args>
-std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))> measureTimeAndResult(Func&& func, Args&&... args) {
-    auto start = std::chrono::high_resolution_clock::now();
-    auto result = func(std::forward<Args>(args)...);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration = end - start;
-    return {duration.count(), result};
-}
+#include "../untitled/info.h"
 
 void printErrorFlags(ErrorFlags& flags) {
     if (flags.invalid_id) {

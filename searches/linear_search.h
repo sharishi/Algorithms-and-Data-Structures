@@ -6,7 +6,7 @@
 #define ASDC_LINEAR_SEARCH_H
 #include<iostream>
 #include <vector>
-#include "../info.h"
+#include "../../untitled/info.h"
 #include <vector>
 
 

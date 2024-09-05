@@ -1,10 +1,13 @@
 //
 // Created by Vica on 21.03.2024.
 //
+#pragma once
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
 #include <array>
+#include <chrono>
 
 #ifndef INFO_H
 #define INFO_H
@@ -46,7 +49,14 @@ City deserialize_city(char* buffer, ErrorFlags& flags);
 void serialize_city(City* city, FILE* file, ErrorFlags& flags);
 std::vector<City> read_cities_from_csv(const char* fname, ErrorFlags& flags);
 void print_output(std::pair<double, City*> result_search, size_t search_id);
-template<typename Func, typename... Args>
-std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))> measureTimeAndResult(Func&& func, Args&&... args);
 void validateAndFillCity(City& city, ErrorFlags& flags);
 bool checkErrorFlags(const ErrorFlags& flags);
+
+template<typename Func, typename... Args>
+std::pair<double, decltype(std::declval<Func>()(std::declval<Args>()...))> measureTimeAndResult(Func&& func, Args&&... args) {
+    auto start = std::chrono::high_resolution_clock::now();
+    auto result = func(std::forward<Args>(args)...);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    return {duration.count(), result};
+}

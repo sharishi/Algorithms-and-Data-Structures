@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <vector>
-#include "../../info.h"
+#include "../../../untitled/info.h"
 #include "../../lists/singly_linked.h"
 #include "../../lists/double_linked.h"
 
@@ -63,21 +63,21 @@ int main() {
         cityList.insertAfter(nullptr, std::move(*iter));
     }
     // Поиск города по идентификатору
-    FindNodeResult<City> result = cityList.find(1);
-//    // Вывод найденного города
-//    if (result.foundNode) {
-//        std::cout << "Found City: " << result.foundNode->value.name.data() << std::endl;
-//    } else {
-//        std::cout << "City not found." << std::endl;
-//    }
+    {
+        FindNodeResult<City> result = cityList.find(1);
+        assert(result.foundNode != nullptr);
+    }
+
     //   Вывод списка городов (пример)
 //    LinkedList<City>::Node *current = cityList.head;
 //    while (current) {
 //        std::cout << "City Name: " << current->value.name.data() << std::endl;
 //        current = current->next;
 //    }
+
 //    // Удаление следующего узла
-    cityList.removeAfter(nullptr);
+    City lastRemovedCity = cityList.getLastElement(nullptr);
+//    std::cout << "lastRemovedCity 3:" << lastRemovedCity.id <<  std::endl;
 
 //    std::cout << "After delete: " << std::endl;
     LinkedList<City>::Node *current2 = cityList.head;
@@ -92,42 +92,24 @@ int main() {
 //    // Пример использования
     DoubleLinkedList<City> DoubleLinkedList;
 
-    for (auto iter = cities_read.rbegin(); iter != cities_read.rend(); ++iter) {
-        DoubleLinkedList.insertAfter(nullptr, std::move(*iter));
+    for (auto& iter : cities_read) {
+        DoubleLinkedList.insertAfter(nullptr, std::move(iter));
     }
 
 //    // Поиск города по идентификатору
-    Node<City>* result_double = DoubleLinkedList.find(2);
+    Node<City>* result = DoubleLinkedList.find(2);
 //
 //    // Вывод найденного города (пример)
-    if (result_double) {
-        std::cout << "Found City: " << result_double->value.name.data() << std::endl;
+    if (result) {
+        std::cout << "Found City: " << result->value.name.data() << std::endl;
     } else {
         std::cout << "City not found." << std::endl;
     }
-//    int length = 0;
-//    Node<City>* current = DoubleLinkedList.head;
-//
-//    while (current != nullptr) {
-//        ++length;
-//        current = current->next;
-//    }
-//
-//
-//
-//// Печатаем длину списка
+
 //    std::cout << "Длина списка: " << length << std::endl;
 //    // Удаление узла из списка
     DoubleLinkedList.remove_double(DoubleLinkedList.head);
 
-//    int length2 = 0;
-//    Node<City>* current3 = DoubleLinkedList.head;
-//
-//    while (current3 != nullptr) {
-//        ++length2;
-//        current3 = current3->next;
-//    }
-//
 //// Печатаем длину списка
 //    std::cout << "Длина списка: " << length2 << std::endl;
 

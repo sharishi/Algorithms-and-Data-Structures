@@ -27,12 +27,10 @@ struct LinkedList {
 
     Node* head;
     Node* tail;
-    size_t size; // текущее количество нодов в списке
+    size_t size;
 
-    // Конструктор
     LinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
-    // Деструктор для освобождения памяти
     ~LinkedList() {
         Node* current = head;
         while (current) {
@@ -42,10 +40,9 @@ struct LinkedList {
         }
     }
 
-    // Вставка значения после указанного узла
     Node* insertAfter(Node* node, T&& value) {
         Node* newNode = new Node{std::move(value), nullptr};
-        if (node == nullptr) { // Если узел не указан, вставляем в начало списка
+        if (node == nullptr) {
             if (!head) {
                 head = newNode;
                 tail = newNode;
@@ -53,7 +50,7 @@ struct LinkedList {
                 newNode->next = head;
                 head = newNode;
             }
-        } else { // Вставляем после указанного узла
+        } else {
             if (node->next == nullptr) {
                 node->next = newNode;
                 tail = newNode;
@@ -62,31 +59,87 @@ struct LinkedList {
                 node->next = newNode;
             }
         }
-        ++size; // увеличиваем размер списка
+        ++size;
         return newNode;
     }
 
-    // Удаление следующего узла после указанного узла
-    void removeAfter(Node* node) {
-        if (node == nullptr) { // Удаляем первый узел
+    Node* addToStart(T&& value) {
+        Node* newNode = new Node{std::move(value), nullptr};
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode->next = head;
+            head = newNode;
+        }
+        ++size;
+        return newNode;
+    }
+    Node* addToEnd(T&& value) {
+        Node* newNode = new Node{std::move(value), nullptr};
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+        ++size;
+        return newNode;
+    }
+
+    City* getLastElement(Node* node) {
+        if (node == nullptr) {
+            if (head != nullptr) {
+                Node* temp = head;
+                while (temp->next != nullptr) {
+                    temp = temp->next;
+                }
+                return &(temp->value); // Возвращаем указатель на последний элемент
+            }
+        } else if (node->next != nullptr) {
+            Node* temp = node->next;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            return &(temp->value); // Возвращаем указатель на последний элемент
+        }
+        return nullptr; // Если список пуст или node указывает на последний элемент
+    }
+
+
+
+    void pop(Node* node) {
+        if (node == nullptr) {
             if (head != nullptr) {
                 Node* temp = head;
                 head = head->next;
                 delete temp;
-                --size; // уменьшаем размер списка
+                --size;
             }
-        } else if (node->next != nullptr) { // Удаляем следующий узел после указанного узла
+        } else if (node->next != nullptr) {
             Node* temp = node->next;
             node->next = temp->next;
             if (temp == tail) {
                 tail = node;
             }
             delete temp;
-            --size; // уменьшаем размер списка
+            --size;
         }
     }
+    City* getFirstElement(Node* node) {
+        if (head != nullptr) {
+            Node* temp = head;
+            head = head->next;
+            City* firstCity = &(temp->value); // Получаем указатель на значение первого элемента
+            delete temp; // Освобождаем память, занимаемую узлом (но не сам объект City)
+            --size;
+            return firstCity;
+        }
+        return nullptr; // Если список пуст
+    }
 
-    // Поиск узла с заданным значением
+
     FindNodeResult<T> find(int value) {
         FindNodeResult<T> result{nullptr, nullptr};
 
@@ -103,7 +156,6 @@ struct LinkedList {
         return result;
     }
 
-    // Проверка наличия циклов в списке
     void assertNoCycles() {
         Node* current = head;
         size_t length = 0;
@@ -115,6 +167,10 @@ struct LinkedList {
 
         assert(length == size && "Cycle detected in the linked list!");
     }
+    bool isEmpty(const typename LinkedList<T>::Node* head) {
+        return head == nullptr;
+    }
+
 };
 
 

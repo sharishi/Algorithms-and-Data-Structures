@@ -7,11 +7,10 @@
 #include <iostream>
 #include <cassert>
 
-// Прототип класса LinkedList
 template<typename T>
 struct DoubleLinkedList;
 
-// Узел списка
+
 template<typename T>
 struct Node {
     T value;
@@ -19,16 +18,15 @@ struct Node {
     Node* next;
 };
 
-// Односвязный список
+
 template<typename T>
 struct DoubleLinkedList {
     Node<T>* head;
     Node<T>* tail;
 
-    // Конструктор
+
     DoubleLinkedList() : head(nullptr), tail(nullptr) {}
 
-    // Деструктор для освобождения памяти
     ~DoubleLinkedList() {
         Node<T>* current = head;
         while (current) {
@@ -38,7 +36,6 @@ struct DoubleLinkedList {
         }
     }
 
-    // Вставка значения после указанного узла
     Node<T>* insertAfter(Node<T>* node, T value) {
         Node<T>* newNode = new Node<T>{std::move(value), nullptr, nullptr};
         if (node == nullptr) { // Если узел не указан, вставляем в начало списка
@@ -50,7 +47,7 @@ struct DoubleLinkedList {
                 head->prev = newNode;
                 head = newNode;
             }
-        } else { // Вставляем после указанного узла
+        } else {
             newNode->next = node->next;
             newNode->prev = node;
             if (node->next)
@@ -62,21 +59,20 @@ struct DoubleLinkedList {
         return newNode;
     }
 
-    // Вставка значения перед указанным узлом
+
     Node<T>* insertBefore(Node<T>* node, T value) {
-        if (node == nullptr) { // Если узел не указан, вставляем в конец списка
+        if (node == nullptr) {
             return insertAfter(tail, value);
-        } else if (node->prev == nullptr) { // Если узел - голова списка
+        } else if (node->prev == nullptr) {
             Node<T>* newNode = new Node<T>{std::move(value), nullptr, node};
             node->prev = newNode;
             head = newNode;
             return newNode;
-        } else { // Вставляем перед указанным узлом
+        } else {
             return insertAfter(node->prev, value);
         }
     }
 
-    // Поиск узла с заданным значением
     Node<T>* find(int value) {
         Node<T>* current = head;
         while (current) {
@@ -88,7 +84,6 @@ struct DoubleLinkedList {
         return nullptr;
     }
 
-    // Удаление узла из списка
     void remove_double(Node<T>* node) {
         if (node == nullptr)
             return;
@@ -106,7 +101,6 @@ struct DoubleLinkedList {
         delete node;
     }
 
-    // Проверка наличия циклов в списке
     void assertNoCycles() {
         Node<T>* current = head;
         size_t length = 0;

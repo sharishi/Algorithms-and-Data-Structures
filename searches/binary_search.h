@@ -5,7 +5,7 @@
 #define ASDC_BINARY_SEARCH_H
 #include<iostream>
 #include <vector>
-#include "../info.h"
+#include "../../untitled/info.h"
 
 City* binary_search(std::vector<City>& cities, size_t search_id) {
     size_t start = 0;

@@ -53,9 +53,20 @@ Node_Graph *createGraph() {
 
     return node1;
 }
+void resetVisitedFlags(Node_Graph *node) {
+    if (node == nullptr) return;
+    node->visited = false;
+
+    for (Node_Graph *neighbor : node->neighbors) {
+        if (neighbor != nullptr && neighbor->visited) {
+            resetVisitedFlags(neighbor);
+        }
+    }
+}
 
 void bfs(Node_Graph *node) {
     if (node == nullptr) return;
+    resetVisitedFlags(node);
     std::queue<Node_Graph *> q;
     node->visited = true;
     q.push(node);
@@ -75,9 +86,11 @@ void bfs(Node_Graph *node) {
     std::cout << std::endl;
 }
 
-void dfs(Node_Graph *startNode) {
+void dfs(Node_Graph *node) {
+    if (node == nullptr) return;
+    resetVisitedFlags(node);
     std::stack<Node_Graph *> stack;
-    stack.push(startNode);
+    stack.push(node);
 
     while (!stack.empty()) {
         Node_Graph *currentNode = stack.top();
